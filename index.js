@@ -1,3 +1,6 @@
+    // Load biến môi trường từ file .env
+    require('dotenv').config();
+
     // Import các module cần thiết
     const express = require('express');
     const methodOverride = require('method-override');
@@ -7,14 +10,13 @@
     const flash = require('express-flash');
 
 
+
+
     // Import cấu hình và các file module
     const systemConfig = require('./config/system.js');
     const database = require('./config/database');
     const route = require('./routes/client/index.route');
     const routeAdmin = require('./routes/admin/index.route');
-
-    // Load biến môi trường từ file .env
-    require('dotenv').config();
 
     // Khởi tạo ứng dụng Express
     const app = express();
