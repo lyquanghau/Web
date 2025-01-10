@@ -8,8 +8,7 @@
     const cookieParser = require('cookie-parser');
     const session = require('express-session');
     const flash = require('express-flash');
-
-
+    const path = require('path');
 
 
     // Import cấu hình và các file module
@@ -26,6 +25,9 @@
 
     // Thiết lập prefix cho admin (từ systemConfig)
     app.locals.prefixAdmin = systemConfig.prefixAdmin;
+
+    // TinyMCE
+    app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
     // Cấu hình thư mục views và view engine
     app.set('views', `${__dirname}/views`);
