@@ -3,9 +3,6 @@ const router = express.Router();
 const multer = require('multer');
 const uploadCloud = require('../../middlewares/admin/uploadCloud.middleware');
 
-// const storageMulter = require('../../helpers/storageMulter');
-
-
 
 const upload = multer();
 

@@ -57,7 +57,6 @@ module.exports.index = async (req, res) => {
     });
 };
 
-
 // [PATCH] admin/products/change-status/:status/:id
 module.exports.changeStatus = async (req, res) => {
 
@@ -152,7 +151,7 @@ module.exports.create = async (req, res) => {
     });
 }
 
-// [PATCH] admin/products/create
+// [POST] admin/products/create
 module.exports.createPost = async (req, res) => {
     try {
         req.body.price = parseInt(req.body.price);
