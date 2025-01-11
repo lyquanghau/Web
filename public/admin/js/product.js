@@ -18,7 +18,6 @@ if (buttonsChangeStatus.length > 0) {
         });
     });
 }
-
 // End Change status
 
 // Delete Item

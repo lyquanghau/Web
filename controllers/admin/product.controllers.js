@@ -14,6 +14,7 @@ module.exports.index = async (req, res) => {
     if (req.query.status) {
         find.status = req.query.status;
     }
+
     // Tìm kiếm 
     const objectSearch = searchHelper(req.query);
     if (objectSearch.regex) {
