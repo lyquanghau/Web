@@ -20,7 +20,16 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex;
     };
 
-    const records = await ProductCategory.find(find)
+    // Sort
+    // let sort = {};
+    // if (req.query.sortKey && req.query.sortValue) {
+    //     sort[req.query.sortKey] = req.query.sortValue;
+    // } else {
+    //     sort.position = "desc"
+    // }
+    // End Sort
+
+    const records = await ProductCategory.find(find);
 
 
     res.render("admin/pages/products-category/index.pug", {
@@ -32,8 +41,31 @@ module.exports.index = async (req, res) => {
 
 // [GET] /admin/products-category/create
 module.exports.create = async (req, res) => {
+    let find = {
+        delete: false
+    }
+
+    function createTree(arr, parentId = "") {
+        const tree = [];
+        arr.forEach(item => {
+            if (item.parent_id === parentId) {
+                const newItem = item;
+                const children = createTree(arr, item.id);
+                if (children.length > 0) {
+                    newItem.children = children;
+                }
+                tree.push(newItem);
+            }
+        });
+        return tree;
+    }
+
+    const records = await ProductCategory.find(find);
+    const newRecords = createTree(records);
+
     res.render("admin/pages/products-category/create.pug", {
-        pageTitle: "Thêm mới danh mục sản phẩm"
+        pageTitle: "Thêm mới danh mục sản phẩm",
+        records: newRecords
     });
 };
 

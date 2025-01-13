@@ -1,6 +1,5 @@
 // Bbutton Status
 const buttonsStatus = document.querySelectorAll("[button-status]");
-
 if (buttonsStatus.length > 0) {
     let url = new URL(window.location.href);
     buttonsStatus.forEach(button => {
@@ -37,7 +36,6 @@ if (formSearch) {
 //  End form - seach
 
 // Pagination
-
 const buttonsPagination = document.querySelectorAll("[button-pagination]");
 if (buttonsPagination) {
     let url = new URL(window.location.href);
@@ -165,8 +163,6 @@ if (uploadImage) {
 
 }
 //  End Upload Image
-
-
 
 // Sort
 const sort = document.querySelector("[sort]");
