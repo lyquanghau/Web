@@ -22,15 +22,6 @@ module.exports.index = async (req, res) => {
         find.title = objectSearch.regex;
     };
 
-    // Sort
-    // let sort = {};
-    // if (req.query.sortKey && req.query.sortValue) {
-    //     sort[req.query.sortKey] = req.query.sortValue;
-    // } else {
-    //     sort.position = "desc"
-    // }
-    // End Sort
-
     const records = await ProductCategory.find(find);
     const newRecords = createTreeHelper.tree(records);
 
@@ -70,6 +61,52 @@ module.exports.createPost = async (req, res) => {
         await record.save();
 
         res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: 'Internal server error.'
+        });
+    }
+};
+
+// [GET] /admin/products-category/edit/:id
+
+module.exports.edit = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await ProductCategory.findOne({
+            _id: id,
+            delete: false
+        })
+        const records = await ProductCategory.find({
+            delete: false
+        });
+        const newRecords = createTreeHelper.tree(records);
+
+        res.render("admin/pages/products-category/edit.pug", {
+            pageTitle: "Chỉnh sửa danh mục sản phẩm",
+            data: data,
+            records: newRecords
+        });
+    } catch (err) {
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+    }
+};
+
+// [PATCH] /admin/products-category/edit/:id
+module.exports.editPatch = async (req, res) => {
+    try {
+
+        const id = req.params.id;
+
+        req.body.position = parseInt(req.body.position);
+
+        await ProductCategory.updateOne({
+            _id: id
+        }, req.body)
+
+        res.redirect("back");
+
     } catch (err) {
         console.error(err);
         res.status(500).json({
