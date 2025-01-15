@@ -1,8 +1,10 @@
 const Product = require('../../models/product.model');
+const ProductCategory = require('../../models/product-category.model');
 const filterStatusHelper = require("../../helpers/filterStatus");
 const searchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 const systemConfig = require("../../config/system");
+const createTreeHelper = require("../../helpers/createTree");
 
 // [GET] /admin/products - Hiển thị danh sách sản phẩm
 module.exports.index = async (req, res) => {
@@ -147,8 +149,18 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] admin/products/create 
 module.exports.create = async (req, res) => {
+
+    let find = {
+        delete: false
+    }
+
+    const category = await ProductCategory.find(find);
+    const newCategory = createTreeHelper.tree(category);
+
+
     res.render("admin/pages/products/create.pug", {
-        pageTitle: "Thêm mới sản phẩm"
+        pageTitle: "Thêm mới sản phẩm",
+        category: newCategory
     });
 }
 
@@ -180,21 +192,27 @@ module.exports.createPost = async (req, res) => {
 
 // [GET] admin/products/edit/:id 
 module.exports.edit = async (req, res) => {
-    try {
-        const find = {
-            delete: false,
-            _id: req.params.id
-        }
-
-        const product = await Product.findOne(find);
-
-        res.render("admin/pages/products/edit.pug", {
-            pageTitle: "Chỉnh sửa sản phẩm",
-            product: product
-        });
-    } catch (error) {
-        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    // try {
+    const find = {
+        delete: false,
+        _id: req.params.id
     }
+
+    const category = await ProductCategory.find({
+        delete: false
+    });
+    const newCategory = createTreeHelper.tree(category);
+
+    const product = await Product.findOne(find);
+
+    res.render("admin/pages/products/edit.pug", {
+        pageTitle: "Chỉnh sửa sản phẩm",
+        product: product,
+        category: newCategory
+    });
+    // } catch (error) {
+    //     res.redirect(`${systemConfig.prefixAdmin}/products`);
+    // }
 }
 
 // [PATCH] admin/products/edit/:id 

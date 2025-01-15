@@ -70,7 +70,6 @@ module.exports.createPost = async (req, res) => {
 };
 
 // [GET] /admin/products-category/edit/:id
-
 module.exports.edit = async (req, res) => {
     try {
         const id = req.params.id;
