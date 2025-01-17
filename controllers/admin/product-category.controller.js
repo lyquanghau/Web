@@ -113,3 +113,21 @@ module.exports.editPatch = async (req, res) => {
         });
     }
 };
+
+
+// [GET] admin/products-category/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const data = await ProductCategory.findOne({
+            _id: id,
+            delete: false
+        })
+        res.render("admin/pages/products-category/detail.pug", {
+            pageTitle: data.title,
+            data: data
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`)
+    }
+}

@@ -1,0 +1,42 @@
+extends ../../layouts/default.pug
+
+block main 
+    block main 
+    .card 
+        .card-body
+            .container.mt-5
+                if(data.title)
+                        h1(class="mb-4 text-primary text-center") #{data.title}
+
+                .row
+                    .col-md-6
+                        if(data.thumbnail)
+                            div(class="mb-4 text-center")
+                                img(
+                                    src=data.thumbnail
+                                    alt="Product Image"
+                                    class="img-fluid rounded"
+                                )
+
+                        if(data.description)
+                            p(class="mb-2") Mô tả: 
+                                span !{data.description}
+                
+
+                        if(data.status)
+                            p(class="mb-2")
+                                span Trạng thái: 
+                                if(data.status === "active")
+                                    span.badge.bg-success Hoạt động
+                                else
+                                    span.badge.bg-danger Dừng hoạt động
+
+                        if(data.position)
+                            p(class="mb-2") Vị trí: 
+                                b #{data.position}
+
+                .text-center.mt-4
+                    a(
+                        href=`${prefixAdmin}/products-category/edit/${data.id}`
+                        class="btn btn-warning btn-sm"
+                    ) Sửa
