@@ -78,3 +78,68 @@ module.exports.editPatch = async (req, res) => {
     }
     res.redirect(`${systemConfig.prefixAdmin}/roles`);
 }
+
+// [GET] admin/roles/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        let find = {
+            _id: id,
+            delete: false
+        };
+        const data = await Role.findOne(find);
+
+        res.render("admin/pages/roles/detail.pug", {
+            pageTitle: "Chi tiết nhóm quyền",
+            data: data
+        });
+    } catch (error) {
+        console.error("Error fetching role data:", error);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }
+};
+
+// [GET] admin/roles/permissions
+module.exports.permissions = async (req, res) => {
+    try {
+        let find = {
+            delete: false
+        };
+        const records = await Role.find(find);
+
+        res.render("admin/pages/roles/permissions.pug", {
+            pageTitle: "Phân quyền",
+            records: records
+        });
+
+    } catch (error) {
+        console.error("Error fetching role data:", error);
+        res.redirect(`${systemConfig.prefixAdmin}/roles`);
+    }
+};
+
+// [PATCH] admin/roles/permissions
+// [PATCH] admin/roles/permissions
+module.exports.permissionsPatch = async (req, res) => {
+    try {
+        const permissions = JSON.parse(req.body.permissions);
+
+        // Cập nhật permissions trong một vòng lặp
+        for (const item of permissions) {
+            await Role.updateOne({
+                _id: item.id
+            }, {
+                permissions: item.permissions
+            });
+        }
+
+        // Gửi phản hồi sau khi hoàn tất tất cả các cập nhật
+        req.flash("success", "Cập nhật phân quyền thành công!");
+        res.redirect(req.get("Referrer") || "/"); // Thay "back" bằng giải pháp an toàn hơn
+    } catch (error) {
+        console.error(error); // Log lỗi để dễ debug
+        req.flash("error", "Cập nhật phân quyền thất bại!");
+        res.redirect(req.get("Referrer") || "/"); // Thay "back" bằng giải pháp an toàn hơn
+    }
+};

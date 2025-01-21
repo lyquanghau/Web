@@ -1,0 +1,16 @@
+extends ../../layouts/default.pug 
+
+block main 
+    .container.mt-5
+        .card
+            .card-header.bg-primary.text-white
+                h5 Chi tiết nhóm quyền
+            .card-body
+                h6.text-muted Tên nhóm quyền
+                p.lead= data.title
+        
+                h6.text-muted Mô tả nhóm quyền
+                p= data.description
+
+        .card-footer.text-end
+            a.btn.btn-warning(href=`${prefixAdmin}/roles/edit/${data.id}`) Sửa nhóm quyền

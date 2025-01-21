@@ -1,42 +1,57 @@
 extends ../../layouts/default.pug
 
-block main 
-    block main 
-    .card 
+block main
+    .container.mt-5
+        .card.shadow-sm
+            .card-header.bg-primary.text-white.text-center
+            h3 Chi tiết danh mục sản phẩm
         .card-body
-            .container.mt-5
-                if(data.title)
-                        h1(class="mb-4 text-primary text-center") #{data.title}
+            if data.title
+                h1.text-primary.text-center.mb-4 #{data.title}
 
-                .row
-                    .col-md-6
-                        if(data.thumbnail)
-                            div(class="mb-4 text-center")
-                                img(
-                                    src=data.thumbnail
-                                    alt="Product Image"
-                                    class="img-fluid rounded"
-                                )
+            .row.g-4.align-items-start
+                .col-md-6.text-center
+                    if data.thumbnail
+                        img(
+                            src=data.thumbnail
+                            alt="Product Image"
+                            class="img-fluid rounded shadow"
+                            style="max-width: 100%; height: auto;"
+                        )
+                    else
+                        img(
+                            src="/images/default-thumbnail.jpg"
+                            alt="Default Image"
+                            class="img-fluid rounded shadow"
+                            style="max-width: 100%; height: auto;"
+                        )
 
-                        if(data.description)
-                            p(class="mb-2") Mô tả: 
-                                span !{data.description}
-                
+                .col-md-6
+                    if data.description
+                        p.mb-3
+                        strong Mô tả:
+                        br
+                        span.text-muted !{data.description}
 
-                        if(data.status)
-                            p(class="mb-2")
-                                span Trạng thái: 
-                                if(data.status === "active")
-                                    span.badge.bg-success Hoạt động
-                                else
-                                    span.badge.bg-danger Dừng hoạt động
+                    if data.status
+                        p.mb-3
+                        strong Trạng thái:
+                        br
+                    if data.status === "active"
+                        span.badge.bg-success.px-3.py-2 Hoạt động
+                    else
+                        span.badge.bg-danger.px-3.py-2 Dừng hoạt động
 
-                        if(data.position)
-                            p(class="mb-2") Vị trí: 
-                                b #{data.position}
+                    if data.position
+                        p.mb-3
+                        strong Vị trí:
+                        br
+                        span.text-muted #{data.position}
 
-                .text-center.mt-4
-                    a(
-                        href=`${prefixAdmin}/products-category/edit/${data.id}`
-                        class="btn btn-warning btn-sm"
-                    ) Sửa
+        .text-center.mt-4
+            a.btn.btn-warning.btn-sm(
+                href=`${prefixAdmin}/products-category/edit/${data.id}`
+            ) Sửa danh mục sản phẩm
+            a.btn.btn-secondary.btn-sm.ms-2(
+                href=`${prefixAdmin}/products-category`
+            ) Quay lại danh mục
