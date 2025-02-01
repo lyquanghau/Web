@@ -95,17 +95,12 @@ module.exports.edit = async (req, res) => {
 // [PATCH] /admin/products-category/edit/:id
 module.exports.editPatch = async (req, res) => {
     try {
-
         const id = req.params.id;
-
         req.body.position = parseInt(req.body.position);
-
         await ProductCategory.updateOne({
             _id: id
         }, req.body)
-
         res.redirect("back");
-
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -131,3 +126,22 @@ module.exports.detail = async (req, res) => {
         res.redirect(`${systemConfig.prefixAdmin}/products-category`)
     }
 }
+
+// [DELETE] admin/products-category/delete/:id
+
+module.exports.deleteCategory = async (req, res) => {
+    try {
+        const id = req.params.id;
+        await ProductCategory.updateOne({
+            _id: id
+        }, {
+            delete: true
+        });
+        res.redirect(`${systemConfig.prefixAdmin}/products-category`);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: 'Internal server error.'
+        });
+    }
+};

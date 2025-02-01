@@ -21,7 +21,6 @@ if (buttonsChangeStatus.length > 0) {
 // End Change status
 
 // Delete Item
-
 const buttonsDelete = document.querySelectorAll("[button-delete]")
 if (buttonsDelete.length > 0) {
     const formDeleteItem = document.querySelector("#form-delete-item");

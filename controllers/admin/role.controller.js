@@ -25,8 +25,6 @@ module.exports.create = async (req, res) => {
 
 // [POST] admin/roles/create 
 module.exports.createPost = async (req, res) => {
-    console.log(req.body);
-
     const record = await Role(req.body);
     await record.save();
 
@@ -58,16 +56,6 @@ module.exports.edit = async (req, res) => {
 module.exports.editPatch = async (req, res) => {
     try {
         const id = req.params.id;
-
-        // let find = {
-        //     _id: id,
-        //     delete: false
-        // };
-
-        // let update = {
-        //     $set: req.body
-        // };
-
         await Role.updateOne({
             _id: id
         }, req.body);
@@ -120,7 +108,6 @@ module.exports.permissions = async (req, res) => {
 };
 
 // [PATCH] admin/roles/permissions
-// [PATCH] admin/roles/permissions
 module.exports.permissionsPatch = async (req, res) => {
     try {
         const permissions = JSON.parse(req.body.permissions);
@@ -141,5 +128,26 @@ module.exports.permissionsPatch = async (req, res) => {
         console.error(error); // Log lỗi để dễ debug
         req.flash("error", "Cập nhật phân quyền thất bại!");
         res.redirect(req.get("Referrer") || "/"); // Thay "back" bằng giải pháp an toàn hơn
+    }
+};
+
+// [GET] admin/roles/delete/:id
+
+module.exports.delete = async (req, res) => {
+    try {
+        const id = req.params.id;
+
+        await Role.updateOne({
+            _id: id
+        }, {
+            delete: true
+        });
+
+        req.flash("success", "Xóa nhóm quyền thành công!");
+        res.redirect(req.get("Referrer") || "/"); // Thay "back" b��ng giải pháp an toàn hơn
+    } catch (error) {
+        console.error(error); // Log l��i để d�� debug
+        req.flash("error", "Xóa nhóm quyền thất bại!");
+        res.redirect(req.get("Referrer") || "/"); // Thay "back" b��ng giải pháp an toàn hơn
     }
 };
